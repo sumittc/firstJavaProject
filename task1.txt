@@ -1,0 +1,4 @@
+groupingBy
+What are parallel streams in Java, and when would you use them?
+What is lazy operations
+What does peek() do in a stream?

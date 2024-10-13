@@ -1,0 +1,84 @@
+const recipient = [
+  "loginbysumit@gmail.com", 
+  "sumittc9@gmail.com"
+  ]; 
+
+function doPost(e) {
+  const SHEET_NAME = "CustomerInformation";
+  const HEADERS = ["Name", "Mobile Number", "Email", "Message"];
+  const DEFAULT_VALUE = 'aa';
+  
+  // Parse incoming data
+  const data = e?.postData?.contents ? JSON.parse(e.postData.contents) : {};
+
+  try {
+    const spreadsheet = getOrCreateSpreadsheet(SHEET_NAME);
+    const sheet = spreadsheet.getSheets()[0];
+
+    if (sheet.getLastRow() === 0) {
+      setupHeaders(sheet, HEADERS);
+    }
+
+    const rowData = [
+      data.name || DEFAULT_VALUE,
+      data.mobile || DEFAULT_VALUE,
+      data.email || DEFAULT_VALUE,
+      data.message || DEFAULT_VALUE
+    ];
+
+    addRowToSheet(sheet, rowData);
+
+    // Send email notification
+    sendEmailNotification(rowData);
+
+    // Return a success response
+    return ContentService.createTextOutput(JSON.stringify({
+      status: 'success',
+      message: 'Data added successfully.'
+    })).setMimeType(ContentService.MimeType.JSON);
+
+  } catch (error) {
+    Logger.log('Error occurred: ' + error.message);
+    // Return an error response
+    return ContentService.createTextOutput(JSON.stringify({
+      status: 'error',
+      message: error.message
+    })).setMimeType(ContentService.MimeType.JSON);
+  }
+}
+
+function getOrCreateSpreadsheet(sheetName) {
+  const files = DriveApp.getFilesByName(sheetName);
+  let spreadsheet;
+
+  if (files.hasNext()) {
+    spreadsheet = SpreadsheetApp.open(files.next());
+    Logger.log('Spreadsheet already exists: ' + spreadsheet.getUrl());
+  } else {
+    spreadsheet = SpreadsheetApp.create(sheetName);
+    Logger.log('Spreadsheet created: ' + spreadsheet.getUrl());
+  }
+
+  return spreadsheet;
+}
+
+function setupHeaders(sheet, headers) {
+  sheet.appendRow(headers);
+  const headerRange = sheet.getRange(1, 1, 1, headers.length);
+  headerRange.setBackground('grey').setFontWeight('bold').setFontColor('#000000');
+}
+
+function addRowToSheet(sheet, rowData) {
+  sheet.appendRow(rowData);
+}
+
+function sendEmailNotification(rowData) {
+  const subject = `New Customer Added: ${rowData[0]}`;
+  const body = `A new customer has been added:\n\n` +
+               `Name: ${rowData[0]}\n` +
+               `Mobile Number: ${rowData[1]}\n` +  // Update to pass mobile number from the rowData
+               `Email: ${rowData[2]}\n` +        // Update to pass email from the rowData
+               `Message: ${rowData[3]}`;          // Update to pass message from the rowData
+
+  MailApp.sendEmail(recipients.join(','), subject, body);
+}

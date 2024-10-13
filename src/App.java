@@ -1,74 +1,41 @@
+import java.util.stream.Collectors;
+import java.util.*;
+
 import packages.BaseClass;
+import java.util.stream.Stream;
 
 public class App extends BaseClass {
 
+  public static String sortStr(String str) {
+    char[] strArr = str.toCharArray();
+    Arrays.sort(strArr);
+    return new String(strArr);
+  }
+
   public static void main(String[] args) {
 
-    class Resource {
-      private int count = 0;
-      public int countLimit = 20;
+    String vowl = ".*[aeiou].*";
 
-      public int getCount() {
-        return count;
-      }
-
-      public synchronized void increamentCount(String className) {
-        p(className + " = " + String.valueOf(++count));
-      }
-    }
-
-    class EvenCount extends Thread {
-      private Resource resource;
-
-      public EvenCount(Resource resource) {
-        this.resource = resource;
-      }
-
-      public void run() {
-        while (resource.getCount() < resource.countLimit) {
-
-          synchronized (resource) {
-            while (resource.getCount() % 2 == 0) {
-              try {
-                resource.wait();
-              } catch (Exception e) {
-              }
-            }
-            resource.increamentCount("EvenCount");
-            resource.notify();
-          }
-        }
-      }
-    }
-
-    class OddCount extends Thread {
-      private Resource resource;
-
-      public OddCount(Resource resource) {
-        this.resource = resource;
-      }
-
-      public void run() {
-        while (resource.getCount() < resource.countLimit) {
-          synchronized (resource) {
-            while (resource.getCount() % 2 == 0) {
-              try {
-                resource.wait();
-              } catch (Exception e) {
-              }
-            }
-            resource.increamentCount("OddCount");
-            resource.notify();
-          }
-        }
-      }
-    }
-
-    Resource resource = new Resource();
-    EvenCount evenCount = new EvenCount(resource);
-    OddCount oddCount = new OddCount(resource);
-
-    oddCount.start();
-    evenCount.start();
+    String ss = "Sumit";
+    isPrime(11);
   }
+
+  public static boolean isPrime(int n) {
+    if (n == 0 || n == 1) {
+      return false;
+    }
+    if (n == 2) {
+      return true;
+    }
+    p(n / 2);
+    for (int i = 2; i <= n / 2; i++) {
+
+      if (n % i == 0) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
 }
