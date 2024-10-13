@@ -1,22 +1,74 @@
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
+import packages.BaseClass;
 
-import packages.FunctionalInterface;
+public class App extends BaseClass {
 
-class SharedResource {
-  public synchronized void write() {
-    System.out.println("Writing data...");
+  public static void main(String[] args) {
+
+    class Resource {
+      private int count = 0;
+      public int countLimit = 20;
+
+      public int getCount() {
+        return count;
+      }
+
+      public synchronized void increamentCount(String className) {
+        p(className + " = " + String.valueOf(++count));
+      }
+    }
+
+    class EvenCount extends Thread {
+      private Resource resource;
+
+      public EvenCount(Resource resource) {
+        this.resource = resource;
+      }
+
+      public void run() {
+        while (resource.getCount() < resource.countLimit) {
+
+          synchronized (resource) {
+            while (resource.getCount() % 2 == 0) {
+              try {
+                resource.wait();
+              } catch (Exception e) {
+              }
+            }
+            resource.increamentCount("EvenCount");
+            resource.notify();
+          }
+        }
+      }
+    }
+
+    class OddCount extends Thread {
+      private Resource resource;
+
+      public OddCount(Resource resource) {
+        this.resource = resource;
+      }
+
+      public void run() {
+        while (resource.getCount() < resource.countLimit) {
+          synchronized (resource) {
+            while (resource.getCount() % 2 == 0) {
+              try {
+                resource.wait();
+              } catch (Exception e) {
+              }
+            }
+            resource.increamentCount("OddCount");
+            resource.notify();
+          }
+        }
+      }
+    }
+
+    Resource resource = new Resource();
+    EvenCount evenCount = new EvenCount(resource);
+    OddCount oddCount = new OddCount(resource);
+
+    oddCount.start();
+    evenCount.start();
   }
-
-  public synchronized void read() {
-    System.out.println("Reading data...");
-  }
-}
-
-public class App {
-
-  public static void main(String[] args) throws Exception {
-    System.out.println("Hello Word");
-  }
-
 }
