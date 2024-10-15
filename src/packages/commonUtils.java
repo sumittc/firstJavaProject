@@ -16,8 +16,6 @@ public class commonUtils {
     List<Integer> list2 = Arrays.asList(9, 3, 4, 2, 3, 0, 3, 2, 5, 4, 3, 2, 7, 5, 3, 4, 2, 5, 4, 8, 7, 9, 6, 5, 6, 4, 7,
             3, 8, 7, 1);
 
-    ArrayList aarrList =         
-
     public Integer getLargestNumberByIndex(Integer indx) {
         Optional<Integer> integer = list.stream().distinct().sorted(Comparator.reverseOrder()).skip(indx).findFirst();
 

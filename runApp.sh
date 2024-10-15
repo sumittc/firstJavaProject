@@ -1,0 +1,2 @@
+clear
+cd /Users/sumit/Desktop/Project\ Files/My\ Projects/Java/firstJavaProject ; /usr/bin/env /Library/Java/JavaVirtualMachines/amazon-corretto-17.jdk/Contents/Home/bin/java -XX:+ShowCodeDetailsInExceptionMessages -cp /Users/sumit/Desktop/Project\ Files/My\ Projects/Java/firstJavaProject/bin App
