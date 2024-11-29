@@ -1,8 +1,6 @@
-import java.util.stream.Collectors;
 import java.util.*;
 
 import packages.BaseClass;
-import java.util.stream.Stream;
 
 public class App extends BaseClass {
 
@@ -12,30 +10,18 @@ public class App extends BaseClass {
     return new String(strArr);
   }
 
+  //     ./runApp.sh    ./runApp.bat
+
   public static void main(String[] args) {
 
-    String vowl = ".*[aeiou].*";
+    String text1 = "googlegooglegooglegoogleg";
+    String text2 = "leg";
 
-    String ss = "Sumit";
-    isPrime(11);
+    Integer count = 0;
+    int index = 0;
+
   }
 
-  public static boolean isPrime(int n) {
-    if (n == 0 || n == 1) {
-      return false;
-    }
-    if (n == 2) {
-      return true;
-    }
-    p(n / 2);
-    for (int i = 2; i <= n / 2; i++) {
-
-      if (n % i == 0) {
-        return false;
-      }
-    }
-
-    return true;
-  }
+ 
 
 }
