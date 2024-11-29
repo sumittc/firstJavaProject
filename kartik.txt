@@ -1,84 +1,483 @@
-const recipient = [
-  "loginbysumit@gmail.com", 
-  "sumittc9@gmail.com"
-  ]; 
+[22/11, 10:24 pm] Kartya: Questions	Answers	Code
+What is React and how does it differ from other JavaScript frameworks?	"React uses a component-based architecture, where the user interface is broken down into reusable components. Each component encapsulates its own logic and state, and these components can be composed together to build complex user interfaces
 
-function doPost(e) {
-  const SHEET_NAME = "CustomerInformation";
-  const HEADERS = ["Name", "Mobile Number", "Email", "Message"];
-  const DEFAULT_VALUE = 'aa';
-  
-  // Parse incoming data
-  const data = e?.postData?.contents ? JSON.parse(e.postData.contents) : {};
+Key Features: 
+1. Virtual DOM
+2. Component based architecture
+3. Unidirectional flow: tat means data can flow from parents to child and not vice versa
+4. Javascript centric: Brings HTML to JS in the form of JSX
+5. Vibrant ecosystem with lots of 3rd party libraries"	
+What is JSX in React?	JSX stands for JavaScript XML. JSX allows us to write HTML in React. JSX makes it easier to write and add HTML in React.	
+Explain the virtual DOM and its significance in React.	It is a JavaScript representation of the actual DOM, stored in memory. When you make changes to a React component, instead of directly modifying the real DOM, React creates a virtual representation of how the DOM should look after the change.	
+How does React update the DOM?	React uses the virtual dom to update the real dome, virtual dom is the virtual reprsentation of the real dom, each time the data chnages in the app, a new virtual dom is created and then compared with the real dom, to update only the difference in real dom	
+What are components in React?	"components are the building blocks of user interfaces. They are reusable, self-contained pieces of code that encapsulate specific functionality and render a part of the user interface. Components can represent elements like buttons, forms, headers, or even entire sections of a web page.
 
-  try {
-    const spreadsheet = getOrCreateSpreadsheet(SHEET_NAME);
-    const sheet = spreadsheet.getSheets()[0];
+2 types:
+1. Functional Compoennts
+Functional components, also known as stateless functional components, are defined as JavaScript functions. They are the simplest form of components and primarily used when the component doesn't need to maintain any internal state or lifecycle methods. Functional components receive props (properties) as input and return JSX (JavaScript XML) as output to describe the UI structure.
 
-    if (sheet.getLastRow() === 0) {
-      setupHeaders(sheet, HEADERS);
+2. Class based components
+Class components are defined as JavaScript classes that extend the React.Component base class. They are used when a component needs to manage its internal state, handle lifecycle methods, or have more complex logic. Class components define a render() method that returns JSX to represent the component's UI structure."	
+Differentiate between functional and class components.	"1. Functional components are basically JS Functions that return JSX to update the UI Structure while Class based components are JS Classes that extends React.component and use the render method to return the JSX that describe the UI
+
+2. Functional components do not have their own state with the introduction of hooke like useState and useEffect components can use states whereas Class based components have their own internal state managed through this.state
+
+3. Functional components do not ave lifecycle methods, it uses useeffect hook to mimic the lifecycle methods while class components have lifecycle methods such as componentDidMount, ComponentdidUpdate, componentwillUnmount"	
+What is state in React and how is it used?	state is a built-in feature that allows components to manage and store data that can change over time. It represents the mutable state of a component and influences how the component renders and behaves. State enables dynamic and interactive user interfaces by providing a way to update and reflect changes in data.	
+Explain the concept of props in React.	props (short for "properties") are a mechanism for passing data from a parent component to its child component(s). Props are immutable and provide a way to customize and configure components, making them dynamic and reusable.	
+What are controlled and uncontrolled components in React?	"1. Controlled components:
+Controlled components are React components where the value of an input element is controlled by React state. The component's state acts as a single source of truth for the input value, and any changes to the input are handled through event handlers that update the state.
+
+2. Uncontrolled components
+Uncontrolled components, on the other hand, allow form inputs to manage their own state internally, without the need for explicit React state management. In uncontrolled components, the value of the input element is managed by the DOM itself, and you can access it using references or other methods."	"1. Controlled
+import React, { useState } from 'react';
+
+const ControlledComponent = () => {
+  const [inputValue, setInputValue] = useState('');
+
+  const handleChange = (event) => {
+    setInputValue(event.target.value);
+  };
+
+  return (
+    <div>
+      <input type=""text"" value={inputValue} onChange={handleChange} />
+      <p>Input value: {inputValue}</p>
+    </div>
+  );
+};
+
+2. Uncontrolled
+import React, { useRef } from 'react';
+
+const UncontrolledComponent = () => {
+  const inputRef = useRef();
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    console.log('Input value:', inputRef.current.value);
+  };
+
+  return (
+    <div>
+      <form onSubmit={handleSubmit}>
+        <input type=""text"" ref={inputRef} />
+        <button type=""submit"">Submit</button>
+      </form>
+    </div>
+  );
+};
+"
+What is the purpose of the "key" prop in React?	keys help identify react which compnents were added, updated or removed	
+What are React hooks? Provide examples of commonly used hooks.	"React Hooks are functions that allow you to use state and other React features in functional components without the need for class components
+
+Examples, UseState, UseEffect, UseContext, UseReducer"	
+What is the significance of the "render" method in React?	In React, the render method is a fundamental part of class components. It defines what content should be displayed by the component, specifying the component's structure and appearance.	
+How do you handle events in React?	In JSX, you can attach event handlers to elements using camelCase event names as attributes. Instead of passing a string representing the handler function, you pass a reference to the actual function.	
+Explain the concept of conditional rendering in React.	"Conditional rendering in React refers to the ability to render different components or content based on certain conditions or variables. It allows you to control what is displayed in the user interface based on the state of your application.
+
+Example: using ternary, && Operator, Switch Statement"	
+What is the purpose of the "shouldComponentUpdate" lifecycle method?	"The shouldComponentUpdate lifecycle method in React provides an opportunity to optimize the performance of your application by controlling when a component should re-render. It allows you to customize the default behavior of React and decide whether the component should update or not based on certain conditions.
+
+Significance:
+1. Performance Optimization:
+2. Avoiding Unnecessary Updates:"	"class MyComponent extends React.Component {
+  shouldComponentUpdate(nextProps, nextState) {
+    // Compare the current and next props and state
+    // Return true if an update should occur, or false otherwise
+
+    if (this.props.value !== nextProps.value) {
+      // Re-render only if the value prop has changed
+      return true;
     }
 
-    const rowData = [
-      data.name || DEFAULT_VALUE,
-      data.mobile || DEFAULT_VALUE,
-      data.email || DEFAULT_VALUE,
-      data.message || DEFAULT_VALUE
-    ];
+    // Default behavior: re-render on any prop or state change
+    return true;
+  }
 
-    addRowToSheet(sheet, rowData);
+  // ...
+}
+"
+How does React handle routing?	"React by default doesn't have a builtin routing, mechanism
+Hence the most commonly used routing package is react-router-dom
+1. Installation
+2. React Router provides a Router component that needs to be added to the root of your application to enable routing
+3. The Route component is used to define a mapping between a URL path and a corresponding component to render.
+4. React Router provides navigation components, such as Link or NavLink, that allow you to create links to different routes within your application. They handle URL updates and trigger the rendering of the corresponding component."	
+What are Higher-Order Components (HOCs) in React?	Higher-Order Components (HOCs) are a design pattern in React that allow you to enhance or modify the behavior of existing components by wrapping them with a higher-order component. HOCs are functions that take a component as input and return a new component with additional features or functionality.	"import React, { useEffect, useState } from 'react';
 
-    // Send email notification
-    sendEmailNotification(rowData);
+const withDataFetching = (WrappedComponent) => {
+  return (props) => {
+    const [data, setData] = useState(null);
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState(null);
 
-    // Return a success response
-    return ContentService.createTextOutput(JSON.stringify({
-      status: 'success',
-      message: 'Data added successfully.'
-    })).setMimeType(ContentService.MimeType.JSON);
+    useEffect(() => {
+      // Simulating data fetching
+      fetchData()
+        .then((data) => {
+          setData(data);
+          setIsLoading(false);
+        })
+        .catch((error) => {
+          setError(error);
+          setIsLoading(false);
+        });
+    }, []);
 
-  } catch (error) {
-    Logger.log('Error occurred: ' + error.message);
-    // Return an error response
-    return ContentService.createTextOutput(JSON.stringify({
-      status: 'error',
-      message: error.message
-    })).setMimeType(ContentService.MimeType.JSON);
+    return (
+      <WrappedComponent
+        data={data}
+        isLoading={isLoading}
+        error={error}
+        {...props}
+      />
+    );
+  };
+};
+
+// Usage:
+const MyComponent = ({ data, isLoading, error }) => {
+  // Render based on data, isLoading, and error
+};
+
+const MyComponentWithData = withDataFetching(MyComponent);
+"
+Explain the concept of context in React	"In React, context is a feature that allows data to be passed down the component tree without explicitly passing it through each component manually. It provides a way to share data between components without the need for prop drilling (passing props through intermediate components that don't need them).
+
+1. Creating Context
+2. Providing the Context
+3. Using the context
+"	
+How do you perform server-side rendering with React?		
+Explain the concept of reconciliation in React	Reconciliation in React is the process of efficiently updating the user interface (UI) to reflect changes in the underlying data or component hierarchy. When changes occur in a React application, such as updates to component props or state, React performs a reconciliation process to determine what parts of the UI need to be updated.	
+How do you handle authentication and authorization in React?	Protected Routes	
+	"The `useReducer` hook in React is used for managing complex state logic within functional components. It provides an alternative to using the `useState` hook when the state logic becomes more intricate and involves multiple related values or requires more advanced state management patterns.
+
+The `useReducer` hook follows the reducer pattern, similar to how state is managed in Redux. It takes a reducer function and an initial state, and returns the current state and a dispatch function that is used to update the state. The reducer function is responsible for specifying how state transitions should occur based on dispatched actions.
+
+The primary purpose of the `useReducer` hook is to handle state updates that depend on the previous state and involve complex logic or state transitions. It can be particularly useful in scenarios such as:
+
+1. **Managing Complex State:** When a component's state involves multiple values that are interdependent or require complex updates, `useReducer` can provide a more structured and manageable way to handle those state transitions.
+
+2. **State Transition Logic:** If the state updates involve complex conditional logic or calculations, using `useReducer` with a reducer function allows you to encapsulate that logic within the reducer, making the component code cleaner and more focused.
+
+3. **Shared State between Components:** When multiple components need to share and update the same state, `useReducer` can be used to manage the shared state and dispatch actions from different components to update that state.
+
+4. **Middleware and Side Effects:** `useReducer` can be combined with other hooks like `useEffect` to incorporate middleware or side effects. By dispatching actions from within `useEffect`, you can perform asynchronous operations or trigger additional logic based on state changes.
+
+Here's an example usage of `useReducer`:
+
+```jsx
+import React, { useReducer } from 'react';
+
+const initialState = {
+  count: 0,
+};
+
+function reducer(state, action) {
+  switch (action.type) {
+    case 'increment':
+      return { count: state.count + 1 };
+    case 'decrement':
+      return { count: state.count - 1 };
+    case 'reset':
+      return { count: 0 };
+    default:
+      throw new Error('Unhandled action');
   }
 }
 
-function getOrCreateSpreadsheet(sheetName) {
-  const files = DriveApp.getFilesByName(sheetName);
-  let spreadsheet;
+function Counter() {
+  const [state, dispatch] = useReducer(reducer, initialState);
 
-  if (files.hasNext()) {
-    spreadsheet = SpreadsheetApp.open(files.next());
-    Logger.log('Spreadsheet already exists: ' + spreadsheet.getUrl());
-  } else {
-    spreadsheet = SpreadsheetApp.create(sheetName);
-    Logger.log('Spreadsheet created: ' + spreadsheet.getUrl());
+  return (
+    <div>
+      Count: {state.count}
+      <button onClick={() => dispatch({ type: 'increment' })}>Increment</button>
+      <button onClick={() => dispatch({ type: 'decrement' })}>Decrement</button>
+      <button onClick={() => dispatch({ type: 'reset' })}>Reset</button>
+    </div>
+  );
+}
+```
+
+In the example above, the `useReducer` hook is used to manage the `count` state within the `Counter` component. The `reducer` function specifies how the state should transition based on different dispatched actions, such as incrementing, decrementing, or resetting the count. The state is updated by calling `dispatch` and passing an action object.
+
+By using `useReducer`, you can handle more complex state management scenarios and separate the state transition logic from the component itself, leading to more maintainable and structured code."	
+		
+State Management		
+What are the different state management solutions available for React	"1. React's Built-in State Management (Local Component State):
+2. Context API:
+3. Redux:
+4. MobX:
+5. Recoil:"	
+Explain the concept of local component state in React	The concept of local component state in React refers to the ability of a component to manage and maintain its own internal state. It allows components to store and update data that is specific to that component, without affecting the state of other components in the application.	
+What are the limitations of using local component state for complex applications?	"Prop Drilling: As the application grows larger and components become deeply nested, passing down state and state update functions through props (prop drilling) can become cumbersome and lead to code clutter.
+
+Shared State Management: Local component state is confined to the component where it is defined. If multiple components need access to the same state or if you need to share state across different parts of your application, local component state can become difficult to manage.
+
+Component Coupling: When using local state, components that need access to the same data or related state need to be rendered within the same component hierarchy. This can result in tight coupling between components and make it challenging to reuse or rearrange components.
+
+State Syncing: If you have components that need to stay in sync with each other or if you need to maintain consistency between different parts of the application, managing and syncing local component state can become complex and error-prone.
+
+Testing Complexity: Testing components with local state can be more challenging compared to testing components that rely on external state management solutions. It can require more setup and mocking of state and state update functions.
+
+Performance Concerns: In some cases, managing local state within multiple components might lead to unnecessary re-renders and negatively impact performance. This is especially true when state updates occur frequently or when passing state through several levels of components."	
+What is Redux and how does it help with state management in React?	"Centralized Store: Redux provides a single source of truth for the entire application's state. The state is stored in a central store, which is an immutable object tree. This makes it easy to access and update state from any component in the application.
+
+Predictable State Updates: Redux enforces a strict unidirectional data flow, which means that state can only be modified through actions. Actions are plain JavaScript objects that describe the type of update and optionally carry additional data. This predictability makes it easier to understand and debug state changes in the application.
+
+Reducers: Redux uses reducers to specify how state should be updated in response to actions. Reducers are pure functions that take the current state and an action, and return the new state. By combining multiple reducers into a root reducer, Redux manages the state updates in a consistent and organized manner.
+
+Immutable State: Redux promotes immutability, meaning that the state is not directly modified. Instead, when an action is dispatched, reducers create a new state object by making copies of the previous state and applying the necessary updates. This immutability helps with performance optimizations and ensures that state changes are tracked efficiently.
+
+Middleware: Redux supports middleware, which are functions that can intercept actions before they reach the reducers. Middleware can be used for various purposes, such as logging, async operations, or applying custom logic to actions. This flexibility allows developers to extend Redux's capabilities and handle complex scenarios effectively.
+
+Integration with React: Redux works seamlessly with React. React components can subscribe to specific parts of the Redux store, allowing them to access and reactively update their state based on changes. Redux provides a connect function and hooks like useSelector and useDispatch to connect components to the Redux store and dispatch actions.
+
+Developer Tools: Redux has a powerful set of developer tools, such as Redux DevTools, which provide a UI for inspecting the state, tracking actions, and replaying actions to debug and analyze application behavior. These tools greatly enhance the developer experience and facilitate state management debugging."	
+What is the purpose of actions and reducers in Redux?	"Actions:
+Actions are plain JavaScript objects that represent an intention to change the state of the application. They describe the type of update to be made and can optionally carry additional data, called the payload. Actions are typically dispatched from components or other parts of the application.
+
+Reducers:
+Reducers are pure functions responsible for handling state updates in response to dispatched actions. A reducer takes the current state and an action as parameters and returns a new state. The new state is typically derived by making copies of the previous state and applying the necessary modifications based on the action type and payload."	"Actions: 
+{
+  type: 'ADD_TODO',
+  payload: {
+    id: 1,
+    text: 'Buy groceries'
   }
-
-  return spreadsheet;
 }
 
-function setupHeaders(sheet, headers) {
-  sheet.appendRow(headers);
-  const headerRange = sheet.getRange(1, 1, 1, headers.length);
-  headerRange.setBackground('grey').setFontWeight('bold').setFontColor('#000000');
-}
+Reducers
+const initialState = {
+  todos: []
+};
 
-function addRowToSheet(sheet, rowData) {
-  sheet.appendRow(rowData);
-}
+const todoReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case 'ADD_TODO':
+      return {
+        ...state,
+        todos: [...state.todos, action.payload]
+      };
+    case 'DELETE_TODO':
+      return {
+        ...state,
+        todos: state.todos.filter(todo => todo.id !== action.payload.id)
+      };
+    default:
+      return state;
+  }
+};
+"
+Explain the concept of middleware in Redux.	middleware is a mechanism that sits between the dispatching of an action and the moment it reaches the reducers. It allows you to apply custom logic or transformations to actions before they are processed by the reducers. Middleware provides a way to intercept and modify actions, perform asynchronous operations, or apply additional functionality to the Redux workflow.	"Midlleware
+const loggerMiddleware = store => next => action => {
+  console.log('Action:', action);
+  const result = next(action);
+  console.log('Next State:', store.getState());
+  return result;
+};
 
-function sendEmailNotification(rowData) {
-  const subject = `New Customer Added: ${rowData[0]}`;
-  const body = `A new customer has been added:\n\n` +
-               `Name: ${rowData[0]}\n` +
-               `Mobile Number: ${rowData[1]}\n` +  // Update to pass mobile number from the rowData
-               `Email: ${rowData[2]}\n` +        // Update to pass email from the rowData
-               `Message: ${rowData[3]}`;          // Update to pass message from the rowData
 
-  MailApp.sendEmail(recipients.join(','), subject, body);
-}
+Application of middleware
+import { createStore, applyMiddleware } from 'redux';
+
+const store = createStore(
+  rootReducer,
+  applyMiddleware(loggerMiddleware, otherMiddleware)
+);
+"
+What is the role of selectors in Redux?	"In Redux, selectors are functions that are used to extract specific pieces of data from the Redux store. They provide an abstraction layer between the components and the store, allowing components to access and retrieve data from the store in a structured and efficient manner.
+
+The primary role of selectors is to compute derived data from the Redux state. Instead of accessing the state directly in components, selectors encapsulate the logic to extract and transform data from the state. This decoupling improves maintainability, reusability, and performance of the application."	"const selectTodos = state => state.todos;
+
+const selectCompletedTodos = state => {
+  const todos = selectTodos(state);
+  return todos.filter(todo => todo.completed);
+};
+"
+How do you connect Redux with a React application?	"To connect Redux with a React application, you need to follow these steps:
+
+1. Install Dependencies: Start by installing the necessary packages. You'll need `react-redux`, which provides the integration between React and Redux, and `redux`, the core Redux library. Run the following command:
+
+   ```
+   npm install react-redux redux
+   ```
+
+2. Create a Redux Store: Set up a Redux store by creating a root reducer and configuring the store with middleware (if needed). The root reducer combines multiple reducers into a single reducer function using Redux's `combineReducers` function. Here's an example:
+
+   ```javascript
+   import { createStore, applyMiddleware } from 'redux';
+   import { Provider } from 'react-redux';
+   import rootReducer from './reducers';
+
+   const store = createStore(rootReducer, applyMiddleware(middleware));
+   ```
+
+3. Wrap the App with the Redux Provider: In your application's entry point (typically the top-level component file), wrap your app with the `Provider` component from `react-redux`. The `Provider` component makes the Redux store available to all components in your application.
+
+   ```javascript
+   import React from 'react';
+   import ReactDOM from 'react-dom';
+   import { Provider } from 'react-redux';
+   import store from './store';
+   import App from './App';
+
+   ReactDOM.render(
+     <Provider store={store}>
+       <App />
+     </Provider>,
+     document.getElementById('root')
+   );
+   ```
+
+4. Connect Components to Redux: To connect individual components to the Redux store, you can use the `connect` function from `react-redux`. This function creates a higher-order component (HOC) that wraps your component and provides access to the Redux store and dispatch functions.
+
+   ```javascript
+   import { connect } from 'react-redux';
+
+   const MyComponent = ({ data }) => {
+     // Use the data from the Redux store
+     // ...
+   };
+
+   const mapStateToProps = state => ({
+     data: state.data,
+   });
+
+   export default connect(mapStateToProps)(MyComponent);
+   ```
+
+   In the above example, `mapStateToProps` is a function that maps the desired state from the Redux store to the component's props. The `connect` function connects the component to the Redux store by providing the mapped state as props.
+
+5. Dispatch Actions: To update the Redux store, you need to dispatch actions. You can either define action creators that return action objects or use middleware like Redux Thunk for handling asynchronous actions. Dispatching actions can be done within your connected components.
+
+   ```javascript
+   import { useDispatch } from 'react-redux';
+   import { increment } from '../actions';
+
+   const MyComponent = () => {
+     const dispatch = useDispatch();
+
+     const handleButtonClick = () => {
+       dispatch(increment());
+     };
+
+     return (
+       <button onClick={handleButtonClick}>Increment</button>
+     );
+   };
+
+   export default MyComponent;
+   ```
+
+   In this example, the `useDispatch` hook from `react-redux` is used to get the `dispatch` function. When the button is clicked, the `increment` action is dispatched to update the Redux store.
+
+By following these steps, you can integrate Redux with a React application. Components can access the Redux store and dispatch actions to update the state. The React-Redux library provides the necessary tools and APIs to establish the connection between React and Redux seamlessly."	
+		
+HTTP Methods		
+How do you make HTTP requests in React?	"In React, you can make HTTP requests using various techniques and libraries. Here are a few common approaches:
+
+1. Fetch API:
+   The Fetch API is a built-in JavaScript API for making HTTP requests. It provides a simple and lightweight way to fetch resources from a server. You can use it to perform GET, POST, PUT, DELETE, and other types of requests. Here's an example of using the Fetch API in React:
+
+   ```javascript
+   import React, { useEffect, useState } from 'react';
+
+   const MyComponent = () => {
+     const [data, setData] = useState(null);
+
+     useEffect(() => {
+       fetch('https://api.example.com/data')
+         .then(response => response.json())
+         .then(data => setData(data))
+         .catch(error => console.log(error));
+     }, []);
+
+     return (
+       <div>{data ? data.message : 'Loading...'}</div>
+     );
+   };
+
+   export default MyComponent;
+   ```
+
+   In this example, the `fetch` function is used to make a GET request to the specified URL. The response is then converted to JSON using the `.json()` method, and the data is stored in the component's state using the `setData` function.
+
+2. Axios:
+   Axios is a popular JavaScript library for making HTTP requests. It provides an easy-to-use API with features like request cancellation, interceptors, and error handling. To use Axios in React, you first need to install it:
+
+   ```
+   npm install axios
+   ```
+
+   Here's an example of using Axios in React:
+
+   ```javascript
+   import React, { useEffect, useState } from 'react';
+   import axios from 'axios';
+
+   const MyComponent = () => {
+     const [data, setData] = useState(null);
+
+     useEffect(() => {
+       axios.get('https://api.example.com/data')
+         .then(response => setData(response.data))
+         .catch(error => console.log(error));
+     }, []);
+
+     return (
+       <div>{data ? data.message : 'Loading...'}</div>
+     );
+   };
+
+   export default MyComponent;
+   ```
+
+   In this example, the `axios.get` method is used to make a GET request to the specified URL. The response data is stored in the component's state using the `setData` function.
+
+3. Other Libraries:
+   There are several other popular HTTP client libraries for React, such as `fetch-mock` and `superagent`. These libraries provide additional features and customization options for making HTTP requests. You can choose the library that best suits your project requirements.
+
+4. Using useEffect Hook:
+   You can also use the `useEffect` hook to perform asynchronous operations, including making HTTP requests. By using the `useEffect` hook with a dependency array, you can ensure that the request is made when the component mounts or when specific dependencies change.
+
+   ```javascript
+   import React, { useEffect, useState } from 'react';
+   import axios from 'axios';
+
+   const MyComponent = () => {
+     const [data, setData] = useState(null);
+
+     useEffect(() => {
+       const fetchData = async () => {
+         try {
+           const response = await axios.get('https://api.example.com/data');
+           setData(response.data);
+         } catch (error) {
+           console.log(error);
+         }
+       };
+
+       fetchData();
+     }, []);
+
+     return (
+       <div>{data ? data.message : 'Loading...'}</div>
+     );
+   };
+
+   export default MyComponent;
+   ```
+
+   In this example, the `fetchData` function is defined inside the `useEffect` hook and marked as `async`. It uses `await` to make the asynchronous HTTP request, and the response data is stored in the component's state using the `"	
+What are the common libraries or tools used for handling HTTP requests in React?	axios, AJAX, Superagent
+[22/11, 10:24 pm] Kartya: HOC
+State management
+usecontext
+custom hooks
+lifecycle hooks
+
+ye karne ko bol
