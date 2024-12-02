@@ -1,6 +1,9 @@
 import java.util.*;
 
+import packages.AbstractMain;
 import packages.BaseClass;
+import packages.InterfaceMain;
+import packages.Person;
 
 public class App extends BaseClass {
 
@@ -14,14 +17,9 @@ public class App extends BaseClass {
 
   public static void main(String[] args) {
 
-    String text1 = "googlegooglegooglegoogleg";
-    String text2 = "leg";
-
-    Integer count = 0;
-    int index = 0;
+    p("shcbsjchb");
+     AbstractMain temp = new AbstractMain();
+     temp.getName();
 
   }
-
- 
-
 }

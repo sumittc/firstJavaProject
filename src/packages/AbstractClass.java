@@ -1,5 +1,6 @@
 package packages;
 
+
 abstract class AbstractClass {
 
     abstract String getName();
@@ -7,4 +8,8 @@ abstract class AbstractClass {
     public void showName() {
         System.out.println(getName());
     }
+
+    private void defaultMethode(){
+
+    };
 }

@@ -19,7 +19,7 @@ public class Person {
         this.name = name;
     }
 
-    public Integer getAge() {
+    protected Integer getAge() {
         return age;
     }
 
