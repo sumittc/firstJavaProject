@@ -1,0 +1,25 @@
+                                    java.lang.Object
+                                          |
+                                      Iterable<E> (interface)
+                                          |
+                                    Collection<E> (interface)
+                              /               |                 \
+                        List<E>       Set<E>         Queue<E> (interfaces)
+                          |              |                  |
+           -----------------------      -------------      ----------------
+          |          |        |        |           |      |              |
+   ArrayList   LinkedList  Vector   HashSet     TreeSet  PriorityQueue  ArrayDeque
+     (class)     (class)   (class)    (class)    (class)     (class)      (class)
+          |                                                
+       Stack                                                
+       (class)                                                
+
+                                    Map<K, V> (interface)
+                                          |
+                        --------------------------------------------------
+                        |                         |                       |
+                   HashMap               TreeMap              LinkedHashMap
+                    (class)                (class)                  (class)
+                        |
+                   Hashtable
+                     (class)

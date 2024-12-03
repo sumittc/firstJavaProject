@@ -1,0 +1,8 @@
+8. Explain mutability and immutability.
+16. How does a HashMap work internally? Explain `hashCode` and `equals` methods.
+
+deep learning
+Single tone
+stream api
+"volatile" keyword
+"Atomicity"

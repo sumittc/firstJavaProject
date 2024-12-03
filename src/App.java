@@ -1,9 +1,9 @@
 import java.util.*;
 
 import packages.AbstractMain;
-import packages.BaseClass;
-import packages.InterfaceMain;
-import packages.Person;
+import packages.base.BaseClass;
+import packages.threadConcepts.MainClass;
+import packages.AappClass;
 
 public class App extends BaseClass {
 
@@ -13,13 +13,18 @@ public class App extends BaseClass {
     return new String(strArr);
   }
 
-  //     ./runApp.sh    ./runApp.bat
+  // ./runApp.sh ./runApp.bat
 
   public static void main(String[] args) {
 
-    p("shcbsjchb");
-     AbstractMain temp = new AbstractMain();
-     temp.getName();
+    AappClass runApp = new AappClass();
+    runApp.runThisMethod();
+
+    MainClass mainClass = new MainClass();
+    mainClass.runThisMethod();
+
+    AbstractMain temp = new AbstractMain();
+    temp.getName();
 
   }
 }

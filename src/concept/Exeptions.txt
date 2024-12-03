@@ -1,0 +1,40 @@
+                     java.lang.Throwable
+                           |
+             ------------------------------
+             |                            |
+            Error                      Exception
+                                           |
+                                 ------------------------
+                                 |                      |
+                         Checked Exceptions       Unchecked Exceptions
+                                 |                      |
+          ---------------------------------   ------------------------------
+          |                |              |    |           |            |       |
+ ClassNotFoundException  InterruptedException  IOException  ArithmeticException ClassCastException NullPointerException ArrayIndexOutOfBoundsException
+                                         |
+                      ------------------------------------
+                      |                                  |
+           InstantiationException                 SQLException
+                                            |
+                                       FileNotFoundException
+
+
+
+
+Built-in Exception
+
+Checked Exceptions
+  ClassNotFoundException
+  InterruptedException
+  IOException
+  InstantiationException
+  SQLException
+  FileNotFoundException
+
+Unchecked Exceptions
+  ArithmeticException
+  ClassCastException
+  NullPointerException
+  ArrayIndexOutOfBoundsException
+  ArrayStoreException
+  IllegalThreadStateException
