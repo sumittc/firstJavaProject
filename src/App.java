@@ -2,6 +2,7 @@ import java.util.*;
 
 import packages.AbstractMain;
 import packages.base.BaseClass;
+import packages.exceptionConcept.ExceptionAppClass;
 import packages.threadConcepts.MainClass;
 import packages.AappClass;
 
@@ -20,11 +21,14 @@ public class App extends BaseClass {
     AappClass runApp = new AappClass();
     runApp.runThisMethod();
 
-    MainClass mainClass = new MainClass();
-    mainClass.runThisMethod();
+    // MainClass mainClass = new MainClass();
+    // mainClass.runThisMethod();
 
-    AbstractMain temp = new AbstractMain();
-    temp.getName();
+    // AbstractMain temp = new AbstractMain();
+    // temp.getName();
+    
 
+    ExceptionAppClass exceptionAppClass = new ExceptionAppClass();
+    exceptionAppClass.runThisMethod();
   }
 }
