@@ -2,8 +2,12 @@
 16. How does a HashMap work internally? Explain `hashCode` and `equals` methods.
 
 deep learning
-Single tone
+Single tone - kartya chi link
 stream api
 "volatile" keyword
 "Atomicity"
 Exception
+Functional Interce given by java 
+  predigace, cousumer
+Fail fast and Fail safe
+Thread Fast and Thread Safe
